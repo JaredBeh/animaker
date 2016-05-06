@@ -48,7 +48,7 @@
   ========================="""
 
 
-
+import sys
 import mdl
 from display import *
 from matrix import *
@@ -73,12 +73,35 @@ from draw import *
   jdyrlandweaver
   ==================== """
 def first_pass( commands ):
-        
+        has_frames = []
+        has_basename = []
+        has_vary = []
+
+        for c in commands:
+            if(c[0]=="frames"):
+                if(len(has_frames)):
+                    sys.exit("Multiple frames calls")
+                has_frames = c
+            elif(c[0]=="basename"):
+                if(len(has_basename)):
+                    sys.exit("Multiple basenames...pick one")
+                has_basename=c
+            elif(c[0]=="vary"):
+                has_vary==c
+        if len(has_frames):
+            global num_frames = has_frames[1]
+            if len(has_basename):
+                global basename=has_basename[1]
+            else:
+                global basename = "pic"
+                print("no basename found, will default to pic")
+        elif len(has_vary):
+            sys.exit("Add frames command")
 
 """======== second_pass( commands ) ==========
 
   In order to set the knobs for animation, we need to keep
-  a seaprate value for each knob for each frame. We can do
+  a separate value for each knob for each frame. We can do
   this by using an array of dictionaries. Each array index
   will correspond to a frame (eg. knobs[0] would be the first
   frame, knobs[2] would be the 3rd frame and so on).
@@ -90,10 +113,14 @@ def first_pass( commands ):
   Go through the command array, and when you find vary, go 
   from knobs[0] to knobs[frames-1] and add (or modify) the
   dictionary corresponding to the given knob with the
-  appropirate value. 
+  appropriate value. 
   ===================="""
 def second_pass( commands, num_frames ):
-
+    knobs = []
+    for f in range(num_frames):
+        for c in commands:
+            if c[0]=="vary":
+                
 
 def run(filename):
     """
