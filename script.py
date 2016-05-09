@@ -89,11 +89,14 @@ def first_pass( commands ):
             elif(c[0]=="vary"):
                 has_vary==c
         if len(has_frames):
-            global num_frames = has_frames[1]
+            global num_frames
+            num_frames = has_frames[1]
             if len(has_basename):
-                global basename=has_basename[1]
+                global basename
+                basename = has_basename[1]
             else:
-                global basename = "pic"
+                global basename
+                basename = "pic"
                 print("no basename found, will default to pic")
         elif len(has_vary):
             sys.exit("Add frames command")
