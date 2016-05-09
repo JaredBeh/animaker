@@ -118,9 +118,11 @@ def first_pass( commands ):
 def second_pass( commands, num_frames ):
     knobs = []
     for f in range(num_frames):
+        knobs[f]={}
         for c in commands:
             if c[0]=="vary":
-                
+                if num_frames > c[2] and num_frames < c[3]:
+                    knobs[f][c[1]] = (f-c[2])(c[5]-c[4])/(c[3]-c[2])
 
 def run(filename):
     """
