@@ -131,11 +131,11 @@ knobs = []
 def second_pass( commands, num_frames ):
     global knobs
     for f in range(num_frames):
-        knobs.append({})
+        knobs.append(dict())
         for c in commands:
             if c[0]=="vary":
-                if num_frames > c[2] and num_frames < c[3]:
-                    knobs[f][c[1]] = (f-c[2])(c[5]-c[4])/(c[3]-c[2])
+                if f > c[2] and f < c[3]:
+                    knobs[f][c[1]] = (f-c[2])*(c[5]-c[4])/(c[3]-c[2])
 
 def run_frame(commands_passed,frame):
     global knobs
@@ -154,24 +154,24 @@ def run_frame(commands_passed,frame):
     commands = copy.deepcopy(commands_passed)
     commands = list(commands)
     i = 0
-    k = -1
     while i < len(commands):
         commands[i] = list(commands[i])
         i+=1
     i = -1
     for command in commands:
         i += 1
+        k = -1
         for c in command:
             k += 1
             if c in knobs[frame]:
                 commands[i][k] = knobs[frame][c]
                 
     if frame < 10:
-        commands.append(["save", basename + "000" + str(frame) + ".png"])
+        commands.append(["save", "./pics/" + basename + "000" + str(frame) + ".png"])
     elif frame < 100:
-        commands.append(["save", basename + "00" + str(frame) + ".png"])
+        commands.append(["save", "./pics/" + basename + "00" + str(frame) + ".png"])
     elif frame < 1000:
-        commands.append(["save", basename + "0" + str(frame) + ".png"])
+        commands.append(["save", "./pics/" + basename + "0" + str(frame) + ".png"])
         
     for command in commands:
         if command[0] == "pop":
